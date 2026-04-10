@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>作業指示フォーム｜株式会社A</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    :root {
+      --bg: #f0f4f8;
+      --card: #ffffff;
+      --primary: #1a4a7a;
+      --primary-light: #2563a8;
+      --accent: #e85d2f;
+      --accent-light: #ff7a52;
+      --text: #1a2433;
+      --text-sub: #5a6a7a;
+      --border: #d0dce8;
+      --input-bg: #f8fafc;
+      --success: #1a9e5c;
+      --shadow: 0 4px 24px rgba(26,74,122,0.10);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 0 48px;
+    }
+
+    /* ── Header ── */
+    header {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: #fff;
+      padding: 28px 24px 22px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 160px; height: 160px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 50%;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; left: -20px;
+      width: 120px; height: 120px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .header-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.9);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 99px;
+      margin-bottom: 10px;
+      font-weight: 400;
+    }
+    header h1 {
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-size: clamp(20px, 5vw, 26px);
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    header p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.75);
+      margin-top: 6px;
+    }
+
+    /* ── Card ── */
+    .card {
+      width: min(560px, 94vw);
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px 28px 28px;
+      margin-top: 28px;
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+    .section-label span.dot {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* ── Facility row (fixed) ── */
+    .facility-row {
+      display: flex;
+      align-items: center;
+      background: linear-gradient(90deg, #eef4fb, #f8fafc);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 18px;
+      margin-bottom: 24px;
+      gap: 10px;
+    }
+    .facility-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+      background: rgba(26,74,122,0.1);
+      padding: 3px 10px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .facility-name {
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* ── Form groups ── */
+    .form-group {
+      margin-bottom: 22px;
+    }
+    label.field-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    label.field-label .req {
+      font-size: 10px;
+      background: var(--accent);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 99px;
+      font-weight: 700;
+    }
+    label.field-label .opt {
+      font-size: 10px;
+      background: #e0e8f0;
+      color: var(--text-sub);
+      padding: 2px 7px;
+      border-radius: 99px;
+      font-weight: 500;
+    }
+
+    /* Radio group */
+    .radio-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .radio-btn {
+      flex: 1;
+      min-width: 100px;
+    }
+    .radio-btn input[type="radio"] { display: none; }
+    .radio-btn label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 11px 16px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-sub);
+      background: var(--input-bg);
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+    .radio-btn input[type="radio"]:checked + label {
+      border-color: var(--primary);
+      background: #eef4fb;
+      color: var(--primary);
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(26,74,122,0.12);
+    }
+    .radio-btn label:hover {
+      border-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* Checkbox group for 機器 */
+    .device-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .device-item { }
+    .device-item input[type="checkbox"] { display: none; }
+    .device-item label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 14px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-sub);
+      background: var(--input-bg);
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+    .device-item input[type="checkbox"]:checked + label {
+      border-color: var(--primary);
+      background: #eef4fb;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .device-item label:hover {
+      border-color: var(--primary-light);
+    }
+    .device-item label .icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+    .check-mark {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 5px;
+      margin-left: auto;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+      font-size: 11px;
+      color: transparent;
+    }
+    .device-item input[type="checkbox"]:checked + label .check-mark {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* Machine number input (hidden until checked) */
+    .machine-num-wrap {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
+      opacity: 0;
+      margin-top: 0;
+    }
+    .machine-num-wrap.show {
+      max-height: 80px;
+      opacity: 1;
+      margin-top: 8px;
+    }
+    .machine-num-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f0f6ff;
+      border: 1.5px solid #b8d0ec;
+      border-radius: 9px;
+      padding: 9px 14px;
+    }
+    .machine-num-inner label {
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .machine-num-inner input {
+      width: 80px;
+      border: 1.5px solid #b8d0ec;
+      border-radius: 7px;
+      padding: 5px 10px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      background: #fff;
+      text-align: center;
+    }
+    .machine-num-inner input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .machine-num-inner span {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    /* Text inputs / textarea */
+    textarea, input[type="text"] {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--input-bg);
+      resize: vertical;
+      transition: border-color 0.18s;
+    }
+    textarea:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #fff;
+    }
+    textarea { min-height: 90px; line-height: 1.6; }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+
+    /* ── Submit button ── */
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: inherit;
+      letter-spacing: 1px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 16px rgba(232,93,47,0.3);
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(232,93,47,0.35);
+    }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled {
+      background: linear-gradient(135deg, #aaa, #ccc);
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-submit .send-icon { font-size: 20px; }
+
+    /* ── Toast / Status ── */
+    #toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--success);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      opacity: 0;
+      transition: all 0.35s ease;
+      z-index: 999;
+      text-align: center;
+      min-width: 260px;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    #toast.error { background: #c0392b; }
+
+    /* ── Setup banner ── */
+    .setup-banner {
+      width: min(560px, 94vw);
+      background: linear-gradient(135deg, #fff8e1, #fff3cd);
+      border: 2px solid #f0c040;
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin-top: 16px;
+    }
+    .setup-banner h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #7a5500;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .setup-banner ol {
+      padding-left: 18px;
+      font-size: 12px;
+      color: #5a4400;
+      line-height: 1.8;
+    }
+    .setup-banner code {
+      background: rgba(0,0,0,0.08);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 420px) {
+      .card { padding: 24px 16px 20px; }
+      .device-grid { grid-template-columns: 1fr; }
+      .radio-group { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">作業指示書</div>
+  <h1>🔧 作業指示フォーム</h1>
+  <p>入力後「送信」ボタンを押すと、自動でメールが送信されます</p>
+</header>
+
+
+
+<div class="card">
+
+  <!-- 施設名 -->
+  <div class="section-label"><span class="dot"></span>施設情報</div>
+  <div class="facility-row">
+    <span class="facility-tag">施設名</span>
+    <span class="facility-name">株式会社A</span>
+  </div>
+
+  <!-- 指示内容 -->
+  <div class="form-group">
+    <label class="field-label">📋 指示内容 <span class="req">必須</span></label>
+    <div class="radio-group">
+      <div class="radio-btn">
+        <input type="radio" id="kosho" name="shiji" value="故障" />
+        <label for="kosho">⚠️ 故障</label>
+      </div>
+      <div class="radio-btn">
+        <input type="radio" id="torikae" name="shiji" value="取替" />
+        <label for="torikae">🔄 取替</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 機器 -->
+  <div class="form-group">
+    <label class="field-label">🏭 機器 <span class="req">必須</span></label>
+    <div class="device-grid">
+
+      <!-- エアコン -->
+      <div class="device-item">
+        <input type="checkbox" id="aircon" value="エアコン" onchange="toggleMachineNum(this,'aircon-num')" />
+        <label for="aircon">
+          <span class="icon">❄️</span> エアコン
+          <span class="check-mark">✓</span>
+        </label>
+        <div class="machine-num-wrap" id="aircon-num">
+          <div class="machine-num-inner">
+            <label for="aircon-no">番号</label>
+            <input type="text" id="aircon-no" placeholder="A3-1" />
+            <span>番号</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 洗濯機 -->
+      <div class="device-item">
+        <input type="checkbox" id="sentaku" value="洗濯機" onchange="toggleMachineNum(this,'sentaku-num')" />
+        <label for="sentaku">
+          <span class="icon">🫧</span> 洗濯機
+          <span class="check-mark">✓</span>
+        </label>
+        <div class="machine-num-wrap" id="sentaku-num">
+          <div class="machine-num-inner">
+            <label for="sentaku-no">番号</label>
+            <input type="text" id="sentaku-no" placeholder="A3-1" />
+            <span>番号</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 乾燥機 -->
+      <div class="device-item">
+        <input type="checkbox" id="kansou" value="乾燥機" onchange="toggleMachineNum(this,'kansou-num')" />
+        <label for="kansou">
+          <span class="icon">🌀</span> 乾燥機
+          <span class="check-mark">✓</span>
+        </label>
+        <div class="machine-num-wrap" id="kansou-num">
+          <div class="machine-num-inner">
+            <label for="kansou-no">番号</label>
+            <input type="text" id="kansou-no" placeholder="A3-1" />
+            <span>番号</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 冷蔵庫 -->
+      <div class="device-item">
+        <input type="checkbox" id="reizou" value="冷蔵庫" onchange="toggleMachineNum(this,'reizou-num')" />
+        <label for="reizou">
+          <span class="icon">🧊</span> 冷蔵庫
+          <span class="check-mark">✓</span>
+        </label>
+        <div class="machine-num-wrap" id="reizou-num">
+          <div class="machine-num-inner">
+            <label for="reizou-no">番号</label>
+            <input type="text" id="reizou-no" placeholder="A3-1" />
+            <span>番号</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- その他 (full width) -->
+      <div class="device-item" style="grid-column: 1 / -1;">
+        <input type="checkbox" id="sonota" value="その他" onchange="toggleMachineNum(this,'sonota-num')" />
+        <label for="sonota">
+          <span class="icon">📦</span> その他
+          <span class="check-mark">✓</span>
+        </label>
+      </div>
+      <div class="machine-num-wrap" id="sonota-num">
+          <div class="machine-num-inner">
+            <label for="sonota-no">その他</label>
+            <input type="text" id="sonota-no" placeholder="内容入力してください" />
+            <span>番号</span>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 備考 -->
+  <div class="form-group">
+    <label class="field-label" for="biko">📝 備考 <span class="opt">任意</span></label>
+    <textarea id="biko" placeholder="補足事項があればご記入ください…"></textarea>
+  </div>
+
+  <!-- 担当者 -->
+  <div class="form-group">
+    <label class="field-label" for="tanto">👤 担当者 <span class="req">必須</span></label>
+    <input type="text" id="tanto" placeholder="例：山田 太郎" />
+  </div>
+
+  <!-- Submit -->
+  <button class="btn-submit" id="sendBtn" onclick="sendForm()">
+    <span class="send-icon">📨</span> 送信する
+  </button>
+
+</div>
+
+<div id="toast"></div>
+
+<script>
+  // ─────────────────────────────────────────
+  //  ⚠️  ここに EmailJS の情報を入力してください
+  // ─────────────────────────────────────────
+  const EMAILJS_PUBLIC_KEY  = "_efCoOTySMW7-n5dK";   // EmailJS Public Key
+  const EMAILJS_SERVICE_ID  = "service_qo6afaf";   // Service ID
+  const EMAILJS_TEMPLATE_ID = "template_3wrvxdq";  // Template ID
+  // ─────────────────────────────────────────
+
+  // Init EmailJS
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+
+  // Toggle machine number input
+  function toggleMachineNum(checkbox, wrapperId) {
+    const wrap = document.getElementById(wrapperId);
+    if (checkbox.checked) {
+      wrap.classList.add('show');
+    } else {
+      wrap.classList.remove('show');
+    }
+  }
+
+  // Show toast
+  function showToast(msg, isError = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'show' + (isError ? ' error' : '');
+    setTimeout(() => { t.className = ''; }, 4000);
+  }
+
+  // Build machine info string
+  function getMachineInfo() {
+    const devices = [
+      { id: 'aircon',  label: 'エアコン', numId: 'aircon-no'  },
+      { id: 'sentaku', label: '洗濯機',   numId: 'sentaku-no' },
+      { id: 'kansou',  label: '乾燥機',   numId: 'kansou-no'  },
+      { id: 'reizou',  label: '冷蔵庫',   numId: 'reizou-no'  },
+      { id: 'sonota',  label: 'その他',   numId: 'sonota-no'  },
+    ];
+    const selected = [];
+    devices.forEach(d => {
+      const cb = document.getElementById(d.id);
+      if (cb && cb.checked) {
+        let text = d.label;
+        if (d.numId) {
+          const num = document.getElementById(d.numId).value;
+          if (num) text += `（${num}）`;
+        }
+        selected.push(text);
+      }
+    });
+    return selected.join('、') || '（未選択）';
+  }
+
+  // Main send function
+  async function sendForm() {
+    // Validation
+    const shiji = document.querySelector('input[name="shiji"]:checked');
+    const tanto = document.getElementById('tanto').value.trim();
+    const devices = document.querySelectorAll('.device-item input[type="checkbox"]:checked');
+
+    if (!shiji)         { showToast('⚠️ 指示内容を選択してください', true); return; }
+    if (devices.length === 0) { showToast('⚠️ 機器を1つ以上選択してください', true); return; }
+    if (!tanto)         { showToast('⚠️ 担当者名を入力してください', true); return; }
+
+    if (EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY") {
+      showToast('⚙️ EmailJS の設定が必要です。HTMLファイル内のキーを設定してください', true);
+      return;
+    }
+
+    // Build params
+    const now = new Date();
+    const dateStr = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+    const params = {
+      shisetsumei: "株式会社A",
+      shiji:       shiji.value,
+      kiki:        getMachineInfo(),
+      biko:        document.getElementById('biko').value.trim() || '（なし）',
+      tanto:       tanto,
+      date:        dateStr,
+      to_email:    "damthanhtung1911@gmail.com",
+      from_email:  "tung16208@gmail.com",
+    };
+
+    // Disable button
+    const btn = document.getElementById('sendBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳</span> 送信中…';
+
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+      showToast('✅ 送信完了！メールが送られました');
+      resetForm();
+    } catch (err) {
+      console.error(err);
+      showToast('❌ 送信に失敗しました。設定を確認してください', true);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<span class="send-icon">📨</span> 送信する';
+    }
+  }
+
+  function resetForm() {
+    document.querySelectorAll('input[name="shiji"]').forEach(r => r.checked = false);
+    document.querySelectorAll('.device-item input[type="checkbox"]').forEach(c => {
+      c.checked = false;
+      c.dispatchEvent(new Event('change'));
+    });
+    document.querySelectorAll('.machine-num-inner input').forEach(i => i.value = '');
+    document.getElementById('biko').value = '';
+    document.getElementById('tanto').value = '';
+  }
+</script>
+
+</body>
+</html>
