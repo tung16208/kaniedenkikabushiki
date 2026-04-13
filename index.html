@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>作業指示フォーム｜株式会社A</title>
+  <title>作業依頼フォーム｜株式会社A</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet" />
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -36,7 +36,6 @@
       padding: 0 0 48px;
     }
 
-    /* ── Header ── */
     header {
       width: 100%;
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
@@ -87,7 +86,6 @@
       margin-top: 6px;
     }
 
-    /* ── Card ── */
     .card {
       width: min(560px, 94vw);
       background: var(--card);
@@ -97,7 +95,6 @@
       margin-top: 28px;
     }
 
-    /* ── Section label ── */
     .section-label {
       display: flex;
       align-items: center;
@@ -118,7 +115,6 @@
       display: inline-block;
     }
 
-    /* ── Facility row (fixed) ── */
     .facility-row {
       display: flex;
       align-items: center;
@@ -147,7 +143,6 @@
       color: var(--text);
     }
 
-    /* ── Form groups ── */
     .form-group {
       margin-bottom: 22px;
     }
@@ -216,7 +211,6 @@
       color: var(--primary);
     }
 
-    /* Checkbox group for 機器 */
     .device-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -269,7 +263,6 @@
       color: #fff;
     }
 
-    /* Machine number input (hidden until checked) */
     .machine-num-wrap {
       max-height: 0;
       overflow: hidden;
@@ -317,7 +310,6 @@
       color: var(--text-sub);
     }
 
-    /* Text inputs / textarea */
     textarea, input[type="text"] {
       width: 100%;
       border: 2px solid var(--border);
@@ -337,14 +329,12 @@
     }
     textarea { min-height: 90px; line-height: 1.6; }
 
-    /* ── Divider ── */
     .divider {
       height: 1px;
       background: var(--border);
       margin: 24px 0;
     }
 
-    /* ── Submit button ── */
     .btn-submit {
       width: 100%;
       background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
@@ -379,7 +369,6 @@
     }
     .btn-submit .send-icon { font-size: 20px; }
 
-    /* ── Toast / Status ── */
     #toast {
       position: fixed;
       bottom: 30px;
@@ -404,7 +393,6 @@
     }
     #toast.error { background: #c0392b; }
 
-    /* ── Setup banner ── */
     .setup-banner {
       width: min(560px, 94vw);
       background: linear-gradient(135deg, #fff8e1, #fff3cd);
@@ -435,7 +423,6 @@
       font-size: 11px;
     }
 
-    /* ── Responsive ── */
     @media (max-width: 420px) {
       .card { padding: 24px 16px 20px; }
       .device-grid { grid-template-columns: 1fr; }
@@ -446,8 +433,8 @@
 <body>
 
 <header>
-  <div class="header-badge">作業指示書</div>
-  <h1>🔧 作業指示フォーム</h1>
+  <div class="header-badge">作業依頼書</div>
+  <h1>🔧 作業依頼フォーム</h1>
   <p>入力後「送信」ボタンを押すと、自動でメールが送信されます</p>
 </header>
 
@@ -455,14 +442,12 @@
 
 <div class="card">
 
-  <!-- 施設名 -->
   <div class="section-label"><span class="dot"></span>施設情報</div>
   <div class="facility-row">
     <span class="facility-tag">施設名</span>
     <span class="facility-name">株式会社A</span>
   </div>
 
-  <!-- 指示内容 -->
   <div class="form-group">
     <label class="field-label">📋 指示内容 <span class="req">必須</span></label>
     <div class="radio-group">
@@ -479,12 +464,11 @@
 
   <div class="divider"></div>
 
-  <!-- 機器 -->
   <div class="form-group">
     <label class="field-label">🏭 機器 <span class="req">必須</span></label>
     <div class="device-grid">
 
-      <!-- エアコン -->
+
       <div class="device-item">
         <input type="checkbox" id="aircon" value="エアコン" onchange="toggleMachineNum(this,'aircon-num')" />
         <label for="aircon">
@@ -500,7 +484,6 @@
         </div>
       </div>
 
-      <!-- 洗濯機 -->
       <div class="device-item">
         <input type="checkbox" id="sentaku" value="洗濯機" onchange="toggleMachineNum(this,'sentaku-num')" />
         <label for="sentaku">
@@ -516,7 +499,6 @@
         </div>
       </div>
 
-      <!-- 乾燥機 -->
       <div class="device-item">
         <input type="checkbox" id="kansou" value="乾燥機" onchange="toggleMachineNum(this,'kansou-num')" />
         <label for="kansou">
@@ -532,7 +514,6 @@
         </div>
       </div>
 
-      <!-- 冷蔵庫 -->
       <div class="device-item">
         <input type="checkbox" id="reizou" value="冷蔵庫" onchange="toggleMachineNum(this,'reizou-num')" />
         <label for="reizou">
@@ -548,7 +529,6 @@
         </div>
       </div>
 
-      <!-- その他 (full width) -->
       <div class="device-item" style="grid-column: 1 / -1;">
         <input type="checkbox" id="sonota" value="その他" onchange="toggleMachineNum(this,'sonota-num')" />
         <label for="sonota">
@@ -568,19 +548,16 @@
 
   <div class="divider"></div>
 
-  <!-- 備考 -->
   <div class="form-group">
     <label class="field-label" for="biko">📝 備考 <span class="opt">任意</span></label>
     <textarea id="biko" placeholder="補足事項があればご記入ください…"></textarea>
   </div>
 
-  <!-- 担当者 -->
   <div class="form-group">
     <label class="field-label" for="tanto">👤 担当者 <span class="req">必須</span></label>
     <input type="text" id="tanto" placeholder="例：山田 太郎" />
   </div>
 
-  <!-- Submit -->
   <button class="btn-submit" id="sendBtn" onclick="sendForm()">
     <span class="send-icon">📨</span> 送信する
   </button>
@@ -590,18 +567,13 @@
 <div id="toast"></div>
 
 <script>
-  // ─────────────────────────────────────────
-  //  ⚠️  ここに EmailJS の情報を入力してください
-  // ─────────────────────────────────────────
+
   const EMAILJS_PUBLIC_KEY  = "_efCoOTySMW7-n5dK";   // EmailJS Public Key
   const EMAILJS_SERVICE_ID  = "service_qo6afaf";   // Service ID
   const EMAILJS_TEMPLATE_ID = "template_3wrvxdq";  // Template ID
-  // ─────────────────────────────────────────
 
-  // Init EmailJS
   emailjs.init(EMAILJS_PUBLIC_KEY);
 
-  // Toggle machine number input
   function toggleMachineNum(checkbox, wrapperId) {
     const wrap = document.getElementById(wrapperId);
     if (checkbox.checked) {
@@ -611,7 +583,6 @@
     }
   }
 
-  // Show toast
   function showToast(msg, isError = false) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -619,7 +590,6 @@
     setTimeout(() => { t.className = ''; }, 4000);
   }
 
-  // Build machine info string
   function getMachineInfo() {
     const devices = [
       { id: 'aircon',  label: 'エアコン', numId: 'aircon-no'  },
@@ -643,9 +613,9 @@
     return selected.join('、') || '（未選択）';
   }
 
-  // Main send function
+
   async function sendForm() {
-    // Validation
+
     const shiji = document.querySelector('input[name="shiji"]:checked');
     const tanto = document.getElementById('tanto').value.trim();
     const devices = document.querySelectorAll('.device-item input[type="checkbox"]:checked');
@@ -659,7 +629,7 @@
       return;
     }
 
-    // Build params
+
     const now = new Date();
     const dateStr = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
 
@@ -674,7 +644,6 @@
       from_email:  "tung16208@gmail.com",
     };
 
-    // Disable button
     const btn = document.getElementById('sendBtn');
     btn.disabled = true;
     btn.innerHTML = '<span>⏳</span> 送信中…';
