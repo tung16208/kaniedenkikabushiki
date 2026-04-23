@@ -324,6 +324,69 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 .empty-state .ei{font-size:48px;margin-bottom:12px;}
 .empty-state p{font-size:14px;}
 
+/* ══ REMEMBER-ME ══ */
+.remember-row{
+  display:flex;align-items:center;gap:9px;
+  margin:12px 0 2px;cursor:pointer;user-select:none;
+}
+.remember-row input[type="checkbox"]{display:none;}
+.remember-box{
+  width:20px;height:20px;border-radius:5px;
+  border:2px solid var(--bdr2);background:var(--sur2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;flex-shrink:0;transition:.2s;color:transparent;
+}
+.remember-row input:checked ~ .remember-box{
+  background:var(--navy);border-color:var(--navy);color:#fff;
+}
+.remember-label{font-size:12.5px;color:var(--txs);line-height:1.4;}
+.remember-label strong{color:var(--navy);}
+
+/* ══ TRUSTED DEVICE BADGE (topbar) ══ */
+.trusted-pill{
+  display:none;align-items:center;gap:5px;
+  background:rgba(15,124,74,.15);border:1px solid rgba(15,124,74,.3);
+  color:#065f46;border-radius:99px;padding:3px 10px;
+  font-size:10.5px;font-weight:700;white-space:nowrap;
+}
+.trusted-pill.show{display:flex;}
+
+/* ══ LOGOUT DROPDOWN ══ */
+.logout-wrap{position:relative;}
+.logout-menu{
+  display:none;position:absolute;top:calc(100% + 6px);right:0;
+  background:var(--sur);border:1.5px solid var(--bdr);border-radius:var(--rad);
+  box-shadow:var(--shd);min-width:220px;z-index:999;overflow:hidden;
+  animation:fadeUp .18s ease;
+}
+.logout-menu.open{display:block;}
+.lm-item{
+  width:100%;padding:11px 16px;border:none;background:transparent;
+  font-size:12.5px;font-weight:600;font-family:inherit;cursor:pointer;
+  color:var(--txb);text-align:left;display:flex;align-items:center;gap:8px;
+  transition:.15s;
+}
+.lm-item:hover{background:var(--sur2);}
+.lm-item.danger{color:var(--err);}
+.lm-item.danger:hover{background:var(--err-bg);}
+.lm-sep{height:1px;background:var(--bdr);margin:2px 0;}
+
+/* ══ AUTO-LOGIN OVERLAY ══ */
+#autoLoginOverlay{
+  position:fixed;inset:0;
+  background:linear-gradient(160deg,var(--navy3),var(--navy));
+  display:flex;align-items:center;justify-content:center;
+  z-index:9999;transition:opacity .3s,visibility .3s;
+}
+#autoLoginOverlay.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.al-inner{text-align:center;color:#fff;}
+.al-icon{font-size:48px;margin-bottom:14px;animation:pulse 1.5s ease infinite;}
+.al-name{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;margin-bottom:4px;}
+.al-sub{font-size:11px;opacity:.5;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+.al-bar{width:140px;height:3px;background:rgba(255,255,255,.15);border-radius:99px;margin:0 auto;overflow:hidden;}
+@keyframes alFill{from{width:0}to{width:100%}}
+.al-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2));animation:alFill .8s ease forwards;}
+
 /* ══ RESPONSIVE ══ */
 @media(max-width:640px){
   .stats-row{grid-template-columns:repeat(2,1fr);}
@@ -332,6 +395,7 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
   .rc-co{font-size:13px;}
   .topbar{padding:0 12px;gap:7px;}
   .tb-name{font-size:12px;}
+  .trusted-pill{display:none!important;}
 }
 </style>
 </head>
@@ -371,6 +435,14 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
           <button class="pw-eye" onclick="togglePw()" tabindex="-1">👁</button>
         </div>
       </div>
+
+      <!-- REMEMBER ME -->
+      <label class="remember-row" for="rememberMe">
+        <input type="checkbox" id="rememberMe" checked/>
+        <span class="remember-box" id="rememberBox">✓</span>
+        <span class="remember-label">📱 <strong>このデバイスを記憶する</strong>（30日間ログイン不要）</span>
+      </label>
+
       <button class="btn-login" id="loginBtn" onclick="doLogin()">
         <span>🔐</span> ログイン
       </button>
@@ -402,8 +474,18 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
     </div>
     <div class="tb-spacer"></div>
     <button class="btn-notif" id="notifBtn" onclick="requestNotifPerm()">🔔 通知</button>
+    <span class="trusted-pill" id="trustedPill">📱 記憶済み</span>
     <div class="user-pill">🛠 <span id="staffName">—</span></div>
-    <button class="btn-logout" onclick="doLogout()">ログアウト</button>
+    <div class="logout-wrap" id="logoutWrap">
+      <button class="btn-logout" onclick="toggleLogoutMenu()">ログアウト ▾</button>
+      <div class="logout-menu" id="logoutMenu">
+        <button class="lm-item" onclick="doLogout(false)">🚪 ログアウト</button>
+        <div class="lm-sep"></div>
+        <button class="lm-item danger" id="clearRememberBtn" onclick="doLogout(true)" style="display:none;">
+          🗑️ デバイスの記憶を削除してログアウト
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- MAIN CONTENT -->
@@ -481,6 +563,16 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
   </div><!-- /main-content -->
 </div><!-- /app-shell -->
 
+<!-- AUTO-LOGIN OVERLAY -->
+<div id="autoLoginOverlay" class="hide">
+  <div class="al-inner">
+    <div class="al-icon">⚡</div>
+    <div class="al-name" id="alName">—</div>
+    <div class="al-sub">STAFF PORTAL — AUTO LOGIN</div>
+    <div class="al-bar"><div class="al-fill"></div></div>
+  </div>
+</div>
+
 <!-- NOTIFICATION BANNER CONTAINER -->
 <div id="notifBanner"></div>
 
@@ -525,6 +617,10 @@ const STAFF_USERS = {
   "admin":    { hash: simpleHash("kanie-admin2024"), name: "管理者（カニエ電機）", short: "管理者" },
 };
 
+/* ══ REMEMBER ME CONSTANTS ══ */
+const REMEMBER_KEY  = 'sp_remember_v2';
+const REMEMBER_DAYS = 30;
+
 /* ══ STATE ══ */
 let cu = null;
 let _allReqs = [];
@@ -539,6 +635,7 @@ let _tenantFilter = 'all';
 let _devFilter = 'all';
 let _taihiId = null;
 let _currentTab = 'reqs';
+let _isRememberedSession = false;
 
 /* ══ FIREBASE WAIT ══ */
 function _waitFb(cb){
@@ -554,9 +651,21 @@ function togglePw(){
   else { inp.type='password'; btn.textContent='👁'; }
 }
 
+// Sync checkbox visual state
+document.addEventListener('DOMContentLoaded', () => {
+  const cb = document.getElementById('rememberMe');
+  const box = document.getElementById('rememberBox');
+  if(cb && box){
+    const sync = () => { box.textContent = cb.checked ? '✓' : ''; };
+    cb.addEventListener('change', sync);
+    sync();
+  }
+});
+
 function doLogin(){
-  const id = document.getElementById('loginId').value.trim();
-  const pw = document.getElementById('loginPw').value;
+  const id  = document.getElementById('loginId').value.trim();
+  const pw  = document.getElementById('loginPw').value;
+  const remember = document.getElementById('rememberMe')?.checked ?? true;
   const err = document.getElementById('loginErr');
   err.style.display = 'none';
   if(!id || !pw){ err.textContent='⚠️ IDとパスワードを入力してください'; err.style.display='block'; return; }
@@ -571,29 +680,116 @@ function doLogin(){
       return;
     }
     btn.disabled=false; btn.innerHTML='<span>🔐</span> ログイン';
-    completeLogin({id, ...u});
+    completeLogin({id, ...u}, remember);
   }, 350);
 }
 
-function completeLogin(u){
+function completeLogin(u, remember=false, isAutoLogin=false){
   cu = u;
+  _isRememberedSession = false;
+
+  // ── セッションストレージ（タブ内）
   try{ sessionStorage.setItem('sp_session', JSON.stringify({id:u.id})); }catch(e){}
+
+  // ── LocalStorage「記憶する」（30日間）
+  if(remember){
+    try{
+      const expires = Date.now() + REMEMBER_DAYS * 24 * 60 * 60 * 1000;
+      localStorage.setItem(REMEMBER_KEY, JSON.stringify({id:u.id, expires, name:u.short}));
+      _isRememberedSession = true;
+    }catch(e){}
+  }
+
+  // ── 自動ログインアニメーション
+  if(isAutoLogin){
+    _showAutoLoginOverlay(u.short, () => _enterApp(u));
+  } else {
+    _enterApp(u);
+  }
+}
+
+function _showAutoLoginOverlay(name, onDone){
+  const ov = document.getElementById('autoLoginOverlay');
+  const nm = document.getElementById('alName');
+  if(!ov) { onDone(); return; }
+  if(nm) nm.textContent = name;
+  ov.classList.remove('hide');
+  setTimeout(() => {
+    ov.classList.add('hide');
+    onDone();
+  }, 900);
+}
+
+function _enterApp(u){
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('appShell').classList.add('show');
   document.getElementById('staffName').textContent = u.short;
+
+  // ── 記憶済みバッジを更新
+  _updateTrustedBadge();
+
   initData();
   requestNotifPerm();
 }
 
-function doLogout(){
+function _updateTrustedBadge(){
+  const pill = document.getElementById('trustedPill');
+  const clearBtn = document.getElementById('clearRememberBtn');
+  const stored = _getRememberedSession();
+  if(stored){
+    if(pill) pill.classList.add('show');
+    if(clearBtn) clearBtn.style.display = 'flex';
+    // Show expiry date in badge
+    const daysLeft = Math.ceil((stored.expires - Date.now()) / (24*60*60*1000));
+    if(pill) pill.title = `このデバイスは記憶されています（残り${daysLeft}日）`;
+  } else {
+    if(pill) pill.classList.remove('show');
+    if(clearBtn) clearBtn.style.display = 'none';
+  }
+}
+
+function _getRememberedSession(){
+  try{
+    const d = JSON.parse(localStorage.getItem(REMEMBER_KEY) || 'null');
+    if(d && d.expires > Date.now() && STAFF_USERS[d.id]) return d;
+    if(d) localStorage.removeItem(REMEMBER_KEY); // expired
+  }catch(e){}
+  return null;
+}
+
+/* ══ LOGOUT DROPDOWN ══ */
+function toggleLogoutMenu(){
+  const menu = document.getElementById('logoutMenu');
+  if(!menu) return;
+  menu.classList.toggle('open');
+  // Close on outside click
+  if(menu.classList.contains('open')){
+    setTimeout(() => {
+      document.addEventListener('click', _closeLogoutMenu, {once:true});
+    }, 10);
+  }
+}
+function _closeLogoutMenu(){ document.getElementById('logoutMenu')?.classList.remove('open'); }
+
+function doLogout(clearRemember=false){
+  _closeLogoutMenu();
   try{ sessionStorage.removeItem('sp_session'); }catch(e){}
+  if(clearRemember){
+    try{ localStorage.removeItem(REMEMBER_KEY); }catch(e){}
+    showToast('🗑️ デバイスの記憶を削除しました','ok');
+  }
   cu = null;
+  _isRememberedSession = false;
   _unsubAll();
   _allReqs=[]; _allTenants=[]; _allDevices=[];
   document.getElementById('appShell').classList.remove('show');
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('loginId').value='';
   document.getElementById('loginPw').value='';
+  // Reset trusted badge
+  const pill = document.getElementById('trustedPill');
+  if(pill) pill.classList.remove('show');
+  setTimeout(() => document.getElementById('loginId').focus(), 100);
 }
 
 /* ══ FIRESTORE INIT ══ */
@@ -1276,17 +1472,38 @@ function showToast(msg,type=''){
 
 /* ══ SESSION RESTORE ══ */
 window.addEventListener('load', () => {
-  // Try restoring session
+
+  // 1️⃣ sessionStorage チェック（タブがまだ開いている場合）
   try{
     const sess = JSON.parse(sessionStorage.getItem('sp_session')||'null');
     if(sess && STAFF_USERS[sess.id]){
-      completeLogin({id:sess.id, ...STAFF_USERS[sess.id]});
+      // Refresh remember-me expiry if stored
+      const rem = _getRememberedSession();
+      if(rem && rem.id === sess.id){
+        // Renew: extend expiry by another 30 days from now
+        try{
+          const expires = Date.now() + REMEMBER_DAYS * 24 * 60 * 60 * 1000;
+          localStorage.setItem(REMEMBER_KEY, JSON.stringify({id:sess.id, expires, name:STAFF_USERS[sess.id].short}));
+        }catch(e){}
+        completeLogin({id:sess.id, ...STAFF_USERS[sess.id]}, true, false);
+      } else {
+        completeLogin({id:sess.id, ...STAFF_USERS[sess.id]}, false, false);
+      }
       return;
     }
   }catch(e){}
-  // Show login
+
+  // 2️⃣ localStorage チェック（「このデバイスを記憶する」で保存済み）
+  const rem = _getRememberedSession();
+  if(rem){
+    // Auto-login with animation
+    completeLogin({id:rem.id, ...STAFF_USERS[rem.id]}, true, true);
+    return;
+  }
+
+  // 3️⃣ どちらもなければログイン画面を表示
   document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('loginId').focus();
+  setTimeout(() => document.getElementById('loginId').focus(), 200);
 });
 </script>
 </body>
