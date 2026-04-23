@@ -9,7 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d2b4e'/%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' font-size='38' font-family='serif' fill='white'%3E%E9%9B%BB%3C/text%3E%3C/svg%3E"/>
-
+ 
 <!-- Firebase SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -32,7 +32,7 @@ window._fs = { doc, setDoc, getDoc, collection, onSnapshot, query, where, delete
 window._fbReady = true;
 document.dispatchEvent(new Event('fb-ready'));
 </script>
-
+ 
 <style>
 /* ══════════════════════════════════════════════
    STAFF PORTAL — カニエ電機株式会社
@@ -53,7 +53,7 @@ document.dispatchEvent(new Event('fb-ready'));
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);color:var(--txb);min-height:100%;-webkit-font-smoothing:antialiased;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px;}
-
+ 
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
@@ -61,7 +61,7 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes micPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,32,32,.3)}50%{box-shadow:0 0 0 6px rgba(200,32,32,0)}}
 @keyframes newBadge{0%{transform:scale(0)}80%{transform:scale(1.2)}100%{transform:scale(1)}}
-
+ 
 /* ══ LOGIN SCREEN ══ */
 #loginScreen{
   display:flex;min-height:100vh;
@@ -117,48 +117,71 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 .btn-login:hover{transform:translateY(-1px);opacity:.95;}
 .btn-login:disabled{opacity:.6;cursor:not-allowed;transform:none;}
 .lc-footer{border-top:1px solid var(--bdr);padding:12px 26px;font-size:10.5px;color:var(--txl);display:flex;justify-content:space-between;}
-
+ 
 /* ══ TOP BAR ══ */
 .topbar{
   position:sticky;top:0;z-index:200;height:56px;
   background:linear-gradient(135deg,var(--navy3),var(--navy));
   border-bottom:3px solid var(--orange);
-  display:flex;align-items:center;padding:0 20px;gap:10px;
+  display:flex;align-items:center;padding:0 14px;gap:8px;
   box-shadow:0 2px 16px rgba(13,43,78,.35);
+  min-width:0;overflow:visible;
 }
 .tb-logo{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.tb-brand{min-width:0;flex-shrink:1;}
 .tb-name{color:#fff;font-size:13px;font-weight:800;font-family:'Sora',sans-serif;white-space:nowrap;}
 .tb-sub{font-size:8.5px;color:rgba(255,255,255,.38);letter-spacing:1.5px;text-transform:uppercase;}
 .tb-divider{width:1px;height:28px;background:rgba(255,255,255,.15);flex-shrink:0;}
-.tb-caption{font-size:11px;color:rgba(255,255,255,.55);letter-spacing:.8px;font-family:'Sora',sans-serif;font-weight:600;}
-.tb-spacer{flex:1;}
-.sync-pill{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:99px;padding:3px 10px;font-size:11px;color:rgba(255,255,255,.65);}
+.tb-caption{font-size:11px;color:rgba(255,255,255,.55);letter-spacing:.8px;font-family:'Sora',sans-serif;font-weight:600;white-space:nowrap;}
+.tb-spacer{flex:1;min-width:0;}
+.sync-pill{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:99px;padding:3px 10px;font-size:11px;color:rgba(255,255,255,.65);white-space:nowrap;flex-shrink:0;}
 #syncDot{width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0;}
 #syncDot.syncing{background:#fbbf24;animation:pulse .8s ease infinite;}
 #syncDot.error{background:#f87171;}
-.user-pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.9);padding:4px 11px;border-radius:99px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px;white-space:nowrap;}
-.btn-notif{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.22);color:rgba(255,255,255,.8);padding:4px 11px;border-radius:99px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;}
+.user-pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.9);padding:4px 11px;border-radius:99px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px;white-space:nowrap;flex-shrink:0;}
+/* ══ NOTIFICATION BUTTON & DROPDOWN ══ */
+.notif-wrap{position:relative;flex-shrink:0;}
+.btn-notif{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.22);color:rgba(255,255,255,.8);padding:4px 11px;border-radius:99px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;position:relative;transition:.15s;}
 .btn-notif:hover{background:rgba(255,255,255,.2);}
-.btn-logout{background:transparent;border:1.5px solid rgba(255,255,255,.28);color:rgba(255,255,255,.8);padding:5px 13px;border-radius:var(--rads);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
+.btn-notif.notif-on{background:rgba(74,222,128,.2);border-color:rgba(74,222,128,.4);color:#4ade80;}
+.notif-dropdown{
+  display:none;position:absolute;top:calc(100% + 10px);right:0;
+  background:var(--sur);border:1.5px solid var(--bdr);border-radius:var(--rad);
+  box-shadow:var(--shd);min-width:260px;z-index:9999;overflow:hidden;
+  animation:fadeUp .18s ease;
+}
+.notif-dropdown.open{display:block;}
+.nd-header{background:var(--navy);color:#fff;padding:10px 14px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px;}
+.nd-body{padding:10px 14px;}
+.nd-status{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--txb);padding:6px 0;}
+.nd-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.nd-dot.on{background:#4ade80;}
+.nd-dot.off{background:#f87171;}
+.nd-dot.na{background:#fbbf24;}
+.nd-btn{width:100%;margin-top:8px;padding:9px;background:var(--navy);color:#fff;border:none;border-radius:var(--rads);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s;}
+.nd-btn:hover{opacity:.9;}
+.nd-note{font-size:10.5px;color:var(--txl);margin-top:6px;text-align:center;}
+.btn-logout{background:transparent;border:1.5px solid rgba(255,255,255,.28);color:rgba(255,255,255,.8);padding:5px 13px;border-radius:var(--rads);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0;}
 .btn-logout:hover{color:#fff;border-color:rgba(255,255,255,.6);}
-
+ 
 /* ══ LAYOUT ══ */
 .app-shell{display:none;flex-direction:column;min-height:100vh;}
 .app-shell.show{display:flex;}
 .main-content{flex:1;max-width:1000px;width:100%;margin:0 auto;padding:24px 20px 80px;}
-
+ 
 /* ══ PAGE HEADER ══ */
 .page-hd{margin-bottom:22px;}
 .page-hd h1{font-size:22px;font-weight:800;color:var(--navy);font-family:'Sora',sans-serif;display:flex;align-items:center;gap:10px;}
 .page-hd p{font-size:12px;color:var(--txs);margin-top:4px;}
 .ph-line{height:3px;width:40px;background:linear-gradient(90deg,var(--orange),var(--orange2));border-radius:2px;margin-top:8px;}
-
+ 
 /* ══ STATS ROW ══ */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px;}
-.stat-card{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--rad);padding:14px 10px;text-align:center;box-shadow:var(--shds);}
+.stat-card{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--rad);padding:14px 10px;text-align:center;box-shadow:var(--shds);transition:transform .15s,box-shadow .15s,outline .15s;}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shd);border-color:var(--blue2);}
 .stat-n{font-size:28px;font-weight:800;color:var(--navy);font-family:'Sora',sans-serif;}
 .stat-l{font-size:10.5px;color:var(--txs);margin-top:3px;}
-
+ 
 /* ══ TOOLBAR ══ */
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
 .filter-group{display:flex;gap:5px;flex-wrap:wrap;}
@@ -173,7 +196,7 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 .search-wrap input{width:100%;padding:7px 12px 7px 34px;border:1.5px solid var(--bdr);border-radius:99px;font-size:12.5px;font-family:inherit;background:var(--sur2);color:var(--txt);outline:none;}
 .search-wrap input:focus{border-color:var(--blue);background:#fff;}
 .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;}
-
+ 
 /* ══ REQUEST CARDS ══ */
 .rlist{display:flex;flex-direction:column;gap:10px;}
 .rc{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--rad);overflow:hidden;border-left:4px solid var(--bdr);box-shadow:var(--shds);transition:box-shadow .2s;}
@@ -195,16 +218,16 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 .rc-detail{max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s;opacity:0;}
 .rc.open .rc-detail{max-height:3000px;opacity:1;}
 .rc-inner{padding:0 16px 16px;border-top:1px solid var(--bdr);}
-
+ 
 /* Status badges */
 .bdg{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;}
 .b-m{background:#fef3c7;color:#92400e;}
 .b-j{background:#dbeafe;color:#1e40af;}
 .b-k{background:#d1fae5;color:#065f46;}
-
+ 
 /* New msg badge */
 .new-msg-badge{background:var(--orange);color:#fff;font-size:9.5px;font-weight:800;padding:1px 7px;border-radius:99px;animation:newBadge .3s ease;}
-
+ 
 /* Info rows */
 .info-rows{margin:10px 0;}
 .info-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--sur3);}
@@ -212,7 +235,7 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 .ir-l{font-size:11px;color:var(--txs);font-weight:600;min-width:78px;flex-shrink:0;}
 .ir-v{font-size:12.5px;color:var(--txb);font-weight:500;}
 .rc-biko{background:var(--sur2);border-left:3px solid var(--orange);padding:8px 11px;border-radius:var(--rads);font-size:12.5px;margin:8px 0;}
-
+ 
 /* Staff actions */
 .rc-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding:10px 0 4px;border-top:1px solid var(--bdr);margin-top:8px;}
 .ssel{padding:6px 10px;border:1.5px solid var(--bdr);border-radius:var(--rads);font-size:12.5px;font-family:inherit;background:var(--sur2);color:var(--txb);cursor:pointer;outline:none;}
@@ -222,18 +245,18 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 .btn-accept{padding:7px 15px;background:var(--navy);color:#fff;border:none;border-radius:var(--rads);font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;}
 .btn-accept:disabled{background:var(--ok);cursor:not-allowed;opacity:.85;}
 .btn-taihi{padding:7px 13px;background:var(--warn-bg);color:var(--warn);border:1.5px solid #fcd34d;border-radius:var(--rads);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;}
-
+ 
 /* Image grid */
 .img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:7px;margin:8px 0;}
 .img-t{position:relative;border-radius:var(--rads);overflow:hidden;aspect-ratio:1;background:var(--sur3);cursor:pointer;}
 .img-t img{width:100%;height:100%;object-fit:cover;}
-
+ 
 /* Edit history */
 .edit-hist{margin-top:8px;background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--rads);padding:10px 12px;}
 .eh-title{font-size:11px;font-weight:700;color:var(--txs);margin-bottom:6px;}
 .eh-item{font-size:11px;color:var(--txs);padding:5px 0;border-bottom:1px solid var(--bdr);}
 .eh-item:last-child{border-bottom:none;}
-
+ 
 /* ══ CHAT ══ */
 .staff-chat{margin-top:12px;border-top:1px solid var(--bdr);padding-top:10px;}
 .chat-hd{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
@@ -263,7 +286,7 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 .btn-mic.recording{background:#fee2e2;border-color:#fca5a5;color:#c82020;animation:micPulse .8s ease infinite;}
 .btn-sc-send{padding:8px 14px;background:var(--navy);color:#fff;border:none;border-radius:var(--rads);font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;}
 .btn-sc-send:hover{background:var(--navy2);}
-
+ 
 /* ══ TENANTS TAB ══ */
 .tenant-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
 .t-card{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--rad);padding:16px;box-shadow:var(--shds);border-top:4px solid var(--bdr);}
@@ -279,17 +302,17 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 .tc-chip.ok{background:var(--ok-bg);color:#065f46;border-color:#6ee7b7;}
 .tc-chip.warn{background:#fef3c7;color:#92400e;border-color:#fcd34d;}
 .tc-chip.err{background:var(--err-bg);color:var(--err);border-color:#fca5a5;}
-
+ 
 /* ══ TABS ══ */
 .tab-bar{display:flex;gap:2px;background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--rad);padding:4px;margin-bottom:20px;}
 .tab-btn{flex:1;padding:9px 12px;border:none;border-radius:calc(var(--rad) - 4px);font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;background:transparent;color:var(--txs);transition:.2s;display:flex;align-items:center;justify-content:center;gap:5px;position:relative;}
 .tab-btn.active{background:var(--sur);color:var(--navy);box-shadow:var(--shds);}
 .tab-badge{min-width:17px;height:17px;border-radius:99px;background:var(--orange);color:#fff;font-size:9.5px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px;}
-
+ 
 /* ══ TAB PAGES ══ */
 .tab-page{display:none;}
 .tab-page.active{display:block;}
-
+ 
 /* ══ MODALS ══ */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(3px);}
 .modal-box{background:var(--sur);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.3);width:min(420px,94vw);overflow:hidden;animation:slideUp .3s cubic-bezier(.22,.68,0,1.1);max-height:90vh;overflow-y:auto;}
@@ -305,25 +328,25 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 .btn-mok{flex:1;padding:11px;background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border:none;border-radius:var(--rads);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
 .btn-mcancel{flex:1;padding:11px;background:var(--sur2);color:var(--txb);border:1.5px solid var(--bdr);border-radius:var(--rads);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
 .btn-mok.danger{background:linear-gradient(135deg,var(--err),#ef4444);}
-
+ 
 /* ══ IMAGE LIGHTBOX ══ */
 #imgModal{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9000;align-items:center;justify-content:center;flex-direction:column;gap:12px;display:none;}
-
+ 
 /* ══ NOTIFICATION BANNER ══ */
 #notifBanner{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:8000;min-width:320px;max-width:480px;}
-
+ 
 /* ══ TOAST ══ */
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--navy);color:#fff;padding:10px 20px;border-radius:99px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;z-index:9999;white-space:nowrap;pointer-events:none;box-shadow:0 4px 18px rgba(13,43,78,.35);}
 #toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 #toast.ok{background:var(--ok);}
 #toast.error{background:var(--err);}
 #toast.warn{background:var(--warn);}
-
+ 
 /* ══ EMPTY STATE ══ */
 .empty-state{text-align:center;padding:48px 24px;color:var(--txl);}
 .empty-state .ei{font-size:48px;margin-bottom:12px;}
 .empty-state p{font-size:14px;}
-
+ 
 /* ══ REMEMBER-ME ══ */
 .remember-row{
   display:flex;align-items:center;gap:9px;
@@ -341,7 +364,7 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 }
 .remember-label{font-size:12.5px;color:var(--txs);line-height:1.4;}
 .remember-label strong{color:var(--navy);}
-
+ 
 /* ══ TRUSTED DEVICE BADGE (topbar) ══ */
 .trusted-pill{
   display:none;align-items:center;gap:5px;
@@ -350,7 +373,7 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
   font-size:10.5px;font-weight:700;white-space:nowrap;
 }
 .trusted-pill.show{display:flex;}
-
+ 
 /* ══ LOGOUT DROPDOWN ══ */
 .logout-wrap{position:relative;}
 .logout-menu{
@@ -370,7 +393,7 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 .lm-item.danger{color:var(--err);}
 .lm-item.danger:hover{background:var(--err-bg);}
 .lm-sep{height:1px;background:var(--bdr);margin:2px 0;}
-
+ 
 /* ══ AUTO-LOGIN OVERLAY ══ */
 #autoLoginOverlay{
   position:fixed;inset:0;
@@ -386,21 +409,29 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 .al-bar{width:140px;height:3px;background:rgba(255,255,255,.15);border-radius:99px;margin:0 auto;overflow:hidden;}
 @keyframes alFill{from{width:0}to{width:100%}}
 .al-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2));animation:alFill .8s ease forwards;}
-
+ 
 /* ══ RESPONSIVE ══ */
 @media(max-width:640px){
   .stats-row{grid-template-columns:repeat(2,1fr);}
   .main-content{padding:16px 14px 80px;}
   .tab-btn span:not(.tab-badge){display:none;}
   .rc-co{font-size:13px;}
-  .topbar{padding:0 12px;gap:7px;}
-  .tb-name{font-size:12px;}
+  .topbar{padding:0 10px;gap:6px;}
+  .tb-name{font-size:11px;}
+  .tb-sub{display:none;}
+  .tb-divider{display:none;}
+  .tb-caption{display:none;}
+  .sync-pill{display:none;}
   .trusted-pill{display:none!important;}
+  .user-pill{padding:3px 8px;font-size:11px;}
+  .btn-logout{padding:4px 9px;font-size:11px;}
+  .btn-notif{padding:4px 8px;font-size:11px;}
+  .notif-dropdown{right:-40px;min-width:240px;}
 }
 </style>
 </head>
 <body>
-
+ 
 <!-- ══════════════════════════════════
   LOGIN SCREEN
 ══════════════════════════════════ -->
@@ -435,14 +466,14 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
           <button class="pw-eye" onclick="togglePw()" tabindex="-1">👁</button>
         </div>
       </div>
-
+ 
       <!-- REMEMBER ME -->
       <label class="remember-row" for="rememberMe">
         <input type="checkbox" id="rememberMe" checked/>
         <span class="remember-box" id="rememberBox">✓</span>
         <span class="remember-label">📱 <strong>このデバイスを記憶する</strong>（30日間ログイン不要）</span>
       </label>
-
+ 
       <button class="btn-login" id="loginBtn" onclick="doLogin()">
         <span>🔐</span> ログイン
       </button>
@@ -453,27 +484,40 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
     </div>
   </div>
 </div>
-
+ 
 <!-- ══════════════════════════════════
   APP SHELL (after login)
 ══════════════════════════════════ -->
 <div class="app-shell" id="appShell">
-
+ 
   <!-- TOP BAR -->
   <div class="topbar">
     <div class="tb-logo">⚡</div>
-    <div>
+    <div class="tb-brand">
       <div class="tb-name">カニエ電機株式会社</div>
       <div class="tb-sub">STAFF PORTAL</div>
     </div>
     <div class="tb-divider"></div>
     <div class="tb-caption">スタッフポータル</div>
-    <div class="sync-pill" style="margin-left:6px;">
+    <div class="sync-pill" style="margin-left:4px;">
       <span id="syncDot"></span>
       <span id="syncTxt">同期済み</span>
     </div>
     <div class="tb-spacer"></div>
-    <button class="btn-notif" id="notifBtn" onclick="requestNotifPerm()">🔔 通知</button>
+    <div class="notif-wrap">
+      <button class="btn-notif" id="notifBtn" onclick="toggleNotifDropdown()">🔔 通知</button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="nd-header">🔔 プッシュ通知設定</div>
+        <div class="nd-body">
+          <div class="nd-status">
+            <span class="nd-dot" id="notifStatusDot"></span>
+            <span id="notifStatusText">状態を確認中…</span>
+          </div>
+          <button class="nd-btn" id="notifActionBtn" onclick="handleNotifAction()">通知を有効にする</button>
+          <div class="nd-note" id="notifNote"></div>
+        </div>
+      </div>
+    </div>
     <span class="trusted-pill" id="trustedPill">📱 記憶済み</span>
     <div class="user-pill">🛠 <span id="staffName">—</span></div>
     <div class="logout-wrap" id="logoutWrap">
@@ -487,25 +531,25 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
       </div>
     </div>
   </div>
-
+ 
   <!-- MAIN CONTENT -->
   <div class="main-content">
-
+ 
     <!-- Page Header -->
     <div class="page-hd">
       <h1>📊 スタッフダッシュボード</h1>
       <p>全テナントの作業依頼をリアルタイムで確認・対応できます</p>
       <div class="ph-line"></div>
     </div>
-
+ 
     <!-- Stats -->
     <div class="stats-row">
-      <div class="stat-card"><div class="stat-n" id="statTotal">0</div><div class="stat-l">総依頼数</div></div>
-      <div class="stat-card"><div class="stat-n" id="statPend" style="color:#d97706;">0</div><div class="stat-l">未対応</div></div>
-      <div class="stat-card"><div class="stat-n" id="statActive" style="color:var(--blue);">0</div><div class="stat-l">実施中</div></div>
-      <div class="stat-card"><div class="stat-n" id="statDone" style="color:var(--ok);">0</div><div class="stat-l">完了</div></div>
+      <div class="stat-card" onclick="filterByStatCard('all')" style="cursor:pointer;" title="すべて表示"><div class="stat-n" id="statTotal">0</div><div class="stat-l">総依頼数</div></div>
+      <div class="stat-card" onclick="filterByStatCard('未定')" style="cursor:pointer;" title="未対応のみ表示"><div class="stat-n" id="statPend" style="color:#d97706;">0</div><div class="stat-l">未対応</div></div>
+      <div class="stat-card" onclick="filterByStatCard('実施中')" style="cursor:pointer;" title="実施中のみ表示"><div class="stat-n" id="statActive" style="color:var(--blue);">0</div><div class="stat-l">実施中</div></div>
+      <div class="stat-card" onclick="filterByStatCard('完了')" style="cursor:pointer;" title="完了のみ表示"><div class="stat-n" id="statDone" style="color:var(--ok);">0</div><div class="stat-l">完了</div></div>
     </div>
-
+ 
     <!-- TAB BAR -->
     <div class="tab-bar">
       <button class="tab-btn active" id="tabReqs" onclick="switchTab('reqs',this)">
@@ -520,16 +564,10 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
         <span class="tab-badge" id="tabDevBadge" style="display:none;">0</span>
       </button>
     </div>
-
+ 
     <!-- TAB: 依頼管理 -->
     <div class="tab-page active" id="pageReqs">
       <div class="toolbar">
-        <div class="filter-group" id="statusFilters">
-          <button class="fb active" onclick="setStatusFilter('all',this)">すべて</button>
-          <button class="fb" onclick="setStatusFilter('未定',this)">⏳ 未定</button>
-          <button class="fb" onclick="setStatusFilter('実施中',this)">🔧 実施中</button>
-          <button class="fb" onclick="setStatusFilter('完了',this)">✅ 完了</button>
-        </div>
         <div class="search-wrap">
           <span class="search-icon">🔍</span>
           <input type="text" id="searchInput" placeholder="会社名・機器・担当者で検索…" oninput="renderReqs()"/>
@@ -541,12 +579,12 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
       <div id="tenantFilterRow" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;"></div>
       <div id="reqsContent"><div class="empty-state"><div class="ei">⏳</div><p>読み込み中…</p></div></div>
     </div>
-
+ 
     <!-- TAB: テナント一覧 -->
     <div class="tab-page" id="pageTenants">
       <div id="tenantsContent"><div class="empty-state"><div class="ei">⏳</div><p>読み込み中…</p></div></div>
     </div>
-
+ 
     <!-- TAB: デバイス承認 -->
     <div class="tab-page" id="pageDevices">
       <div class="toolbar">
@@ -559,10 +597,10 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
       </div>
       <div id="devicesContent"><div class="empty-state"><div class="ei">⏳</div><p>読み込み中…</p></div></div>
     </div>
-
+ 
   </div><!-- /main-content -->
 </div><!-- /app-shell -->
-
+ 
 <!-- AUTO-LOGIN OVERLAY -->
 <div id="autoLoginOverlay" class="hide">
   <div class="al-inner">
@@ -572,10 +610,10 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
     <div class="al-bar"><div class="al-fill"></div></div>
   </div>
 </div>
-
+ 
 <!-- NOTIFICATION BANNER CONTAINER -->
 <div id="notifBanner"></div>
-
+ 
 <!-- TAIHI MODAL -->
 <div class="modal-overlay" id="taihiModal" style="display:none;">
   <div class="modal-box">
@@ -589,15 +627,15 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
     </div>
   </div>
 </div>
-
+ 
 <!-- IMAGE LIGHTBOX -->
 <div id="imgModal" onclick="closeImgModal()">
   <button style="position:absolute;top:14px;right:16px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:20px;width:36px;height:36px;border-radius:50%;cursor:pointer;" onclick="closeImgModal()">✕</button>
   <img id="imgModalImg" src="" style="max-width:92vw;max-height:80vh;border-radius:10px;object-fit:contain;" onclick="event.stopPropagation()"/>
 </div>
-
+ 
 <div id="toast"></div>
-
+ 
 <!-- ══════════════════════════════════
   JAVASCRIPT
 ══════════════════════════════════ -->
@@ -606,7 +644,7 @@ html,body{font-family:'Noto Sans JP','Sora',sans-serif;background:var(--bg);colo
 const EJ_KEY = "_efCoOTySMW7-n5dK", EJ_SVC = "service_qo6afaf", EJ_TPL = "template_3wrvxdq";
 const NOTIFY = "damthanhtung1911@gmail.com";
 emailjs.init(EJ_KEY);
-
+ 
 /* ══ STAFF ACCOUNTS ══ */
 function simpleHash(s){
   let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return h;
@@ -616,11 +654,11 @@ const STAFF_USERS = {
   "staff-02": { hash: simpleHash("staff002"), name: "鈴木 花子", short: "鈴木 花子" },
   "admin":    { hash: simpleHash("kanie-admin2024"), name: "管理者（カニエ電機）", short: "管理者" },
 };
-
+ 
 /* ══ REMEMBER ME CONSTANTS ══ */
 const REMEMBER_KEY  = 'sp_remember_v2';
 const REMEMBER_DAYS = 30;
-
+ 
 /* ══ STATE ══ */
 let cu = null;
 let _allReqs = [];
@@ -636,13 +674,13 @@ let _devFilter = 'all';
 let _taihiId = null;
 let _currentTab = 'reqs';
 let _isRememberedSession = false;
-
+ 
 /* ══ FIREBASE WAIT ══ */
 function _waitFb(cb){
   if(window._fbReady) cb();
   else document.addEventListener('fb-ready', cb, {once:true});
 }
-
+ 
 /* ══ AUTH ══ */
 function togglePw(){
   const inp = document.getElementById('loginPw');
@@ -650,7 +688,7 @@ function togglePw(){
   if(inp.type === 'password'){ inp.type='text'; btn.textContent='🙈'; }
   else { inp.type='password'; btn.textContent='👁'; }
 }
-
+ 
 // Sync checkbox visual state
 document.addEventListener('DOMContentLoaded', () => {
   const cb = document.getElementById('rememberMe');
@@ -661,7 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sync();
   }
 });
-
+ 
 function doLogin(){
   const id  = document.getElementById('loginId').value.trim();
   const pw  = document.getElementById('loginPw').value;
@@ -683,14 +721,14 @@ function doLogin(){
     completeLogin({id, ...u}, remember);
   }, 350);
 }
-
+ 
 function completeLogin(u, remember=false, isAutoLogin=false){
   cu = u;
   _isRememberedSession = false;
-
+ 
   // ── セッションストレージ（タブ内）
   try{ sessionStorage.setItem('sp_session', JSON.stringify({id:u.id})); }catch(e){}
-
+ 
   // ── LocalStorage「記憶する」（30日間）
   if(remember){
     try{
@@ -699,7 +737,7 @@ function completeLogin(u, remember=false, isAutoLogin=false){
       _isRememberedSession = true;
     }catch(e){}
   }
-
+ 
   // ── 自動ログインアニメーション
   if(isAutoLogin){
     _showAutoLoginOverlay(u.short, () => _enterApp(u));
@@ -707,7 +745,7 @@ function completeLogin(u, remember=false, isAutoLogin=false){
     _enterApp(u);
   }
 }
-
+ 
 function _showAutoLoginOverlay(name, onDone){
   const ov = document.getElementById('autoLoginOverlay');
   const nm = document.getElementById('alName');
@@ -719,19 +757,19 @@ function _showAutoLoginOverlay(name, onDone){
     onDone();
   }, 900);
 }
-
+ 
 function _enterApp(u){
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('appShell').classList.add('show');
   document.getElementById('staffName').textContent = u.short;
-
+ 
   // ── 記憶済みバッジを更新
   _updateTrustedBadge();
-
+ 
   initData();
   requestNotifPerm();
 }
-
+ 
 function _updateTrustedBadge(){
   const pill = document.getElementById('trustedPill');
   const clearBtn = document.getElementById('clearRememberBtn');
@@ -747,7 +785,7 @@ function _updateTrustedBadge(){
     if(clearBtn) clearBtn.style.display = 'none';
   }
 }
-
+ 
 function _getRememberedSession(){
   try{
     const d = JSON.parse(localStorage.getItem(REMEMBER_KEY) || 'null');
@@ -756,7 +794,7 @@ function _getRememberedSession(){
   }catch(e){}
   return null;
 }
-
+ 
 /* ══ LOGOUT DROPDOWN ══ */
 function toggleLogoutMenu(){
   const menu = document.getElementById('logoutMenu');
@@ -770,7 +808,7 @@ function toggleLogoutMenu(){
   }
 }
 function _closeLogoutMenu(){ document.getElementById('logoutMenu')?.classList.remove('open'); }
-
+ 
 function doLogout(clearRemember=false){
   _closeLogoutMenu();
   try{ sessionStorage.removeItem('sp_session'); }catch(e){}
@@ -791,7 +829,7 @@ function doLogout(clearRemember=false){
   if(pill) pill.classList.remove('show');
   setTimeout(() => document.getElementById('loginId').focus(), 100);
 }
-
+ 
 /* ══ FIRESTORE INIT ══ */
 function initData(){
   setSyncStatus('syncing');
@@ -806,7 +844,7 @@ function initData(){
         updateStats();
       }, e => { console.error(e); setSyncStatus('error'); }
     );
-
+ 
     // Subscribe devices
     _unsubDevices = window._fs.onSnapshot(
       window._fs.collection(window._db, 'devices'),
@@ -824,12 +862,12 @@ function initData(){
         updateTabBadges();
       }, e => console.error(e)
     );
-
+ 
     // Subscribe reqs from all tenants
     _subscribeAllTenantReqs();
   });
 }
-
+ 
 function _subscribeAllTenantReqs(){
   // We listen to /tenants collection first then subscribe each tenant's reqs
   // Use a broad subscription approach: listen to tenants then sub each
@@ -840,7 +878,7 @@ function _subscribeAllTenantReqs(){
     const commonIds = ['T001','T002','sugatec','kaisha-b'];
     const allIds = [...new Set([...tenantIds, ...commonIds])];
     allIds.forEach(tid => _subscribeTenantReqs(tid));
-
+ 
     // Re-subscribe when tenants change
     window._fs.onSnapshot(window._fs.collection(window._db, 'tenants'), snap => {
       snap.docs.forEach(d => {
@@ -849,7 +887,7 @@ function _subscribeAllTenantReqs(){
     });
   });
 }
-
+ 
 const _subscribedTenants = new Set();
 function _subscribeTenantReqs(tenantId){
   if(_subscribedTenants.has(tenantId)) return;
@@ -875,7 +913,7 @@ function _subscribeTenantReqs(tenantId){
     _unsubReqs.push(unsub);
   });
 }
-
+ 
 function _unsubAll(){
   _unsubReqs.forEach(u => { try{u();}catch(e){} });
   _unsubReqs = [];
@@ -884,7 +922,7 @@ function _unsubAll(){
   if(_unsubDevices){ try{_unsubDevices();}catch(e){} _unsubDevices=null; }
   _knownReqIds.clear();
 }
-
+ 
 function saveReq(req){
   if(!req||!req.id||!req.tenantId) return;
   setSyncStatus('syncing');
@@ -895,7 +933,7 @@ function saveReq(req){
     }catch(e){ console.error(e); setSyncStatus('error'); showToast('⚠️ 同期エラー','error'); }
   });
 }
-
+ 
 /* ══ STATS ══ */
 function updateStats(){
   document.getElementById('statTotal').textContent = _allReqs.length;
@@ -903,7 +941,7 @@ function updateStats(){
   document.getElementById('statActive').textContent = _allReqs.filter(r=>r.status==='実施中').length;
   document.getElementById('statDone').textContent = _allReqs.filter(r=>r.status==='完了').length;
 }
-
+ 
 function updateTabBadges(){
   const pend = _allReqs.filter(r=>r.status==='未定').length;
   const pendDev = _allDevices.filter(d=>d.status==='pending').length;
@@ -912,7 +950,7 @@ function updateTabBadges(){
   if(rb){ rb.textContent=pend; rb.style.display=pend>0?'flex':'none'; }
   if(db){ db.textContent=pendDev; db.style.display=pendDev>0?'flex':'none'; }
 }
-
+ 
 /* ══ TAB SWITCH ══ */
 function switchTab(name, btn){
   _currentTab = name;
@@ -922,7 +960,7 @@ function switchTab(name, btn){
   const pageMap = {reqs:'pageReqs', tenants:'pageTenants', devices:'pageDevices'};
   document.getElementById(pageMap[name]).classList.add('active');
 }
-
+ 
 /* ══ TENANT FILTER ROW ══ */
 function buildTenantFilterRow(){
   const row = document.getElementById('tenantFilterRow');
@@ -933,27 +971,25 @@ function buildTenantFilterRow(){
   ).join('');
   row.innerHTML = html;
 }
-
+ 
 function setTenantFilter(tid, btn){
   _tenantFilter = tid;
   buildTenantFilterRow();
   renderReqs();
 }
-
+ 
 function setStatusFilter(s, btn){
   _statusFilter = s;
-  document.querySelectorAll('#statusFilters .fb').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
   renderReqs();
 }
-
+ 
 function setDevFilter(s, btn){
   _devFilter = s;
   document.querySelectorAll('#devStatusFilters .fb').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
   renderDevicesTab();
 }
-
+ 
 /* ══ RENDER REQUESTS ══ */
 function renderReqs(){
   const el = document.getElementById('reqsContent');
@@ -969,18 +1005,18 @@ function renderReqs(){
     (r.shiji||'').toLowerCase().includes(q)
   );
   data.sort((a,b) => (b.id||0) - (a.id||0));
-
+ 
   if(!data.length){
     el.innerHTML = '<div class="empty-state"><div class="ei">📂</div><p>該当する依頼がありません</p></div>';
     return;
   }
-
+ 
   el.innerHTML = '<div class="rlist">' + data.map(r => {
     const sc = r.status==='未定'?'miteii':r.status==='実施中'?'jissyu':'kanryo';
     const isMyCase = r.acceptedBy === cu.short;
     const msgs = r.comments || [];
     const unread = msgs.filter(c=>c.fromClient).length;
-
+ 
     let chatHtml = `<div class="staff-chat">
       <div class="chat-hd">
         <span class="chat-title">💬 チャット</span>
@@ -1007,7 +1043,7 @@ function renderReqs(){
         <button class="btn-sc-send" onclick="sendChat('${r.id}')">送信</button>
       </div>
     </div>`;
-
+ 
     const editHistHtml = (r.editHistory&&r.editHistory.length) ? `
       <div class="edit-hist">
         <div class="eh-title">📝 編集履歴 (${r.editHistory.length}件)</div>
@@ -1015,7 +1051,7 @@ function renderReqs(){
           変更前: ${escHtml(eh.before?.shiji)} / ${escHtml(eh.before?.kiki)}<br>
           変更後: ${escHtml(eh.after?.shiji)} / ${escHtml(eh.after?.kiki)}</div>`).join('')}
       </div>` : '';
-
+ 
     return `<div class="rc s-${sc}" id="rc-${r.id}">
       <div class="rc-header" onclick="toggleRc('${r.id}')">
         <div class="rc-left">
@@ -1065,13 +1101,13 @@ function renderReqs(){
       </div>
     </div>`;
   }).join('') + '</div>';
-
+ 
   // Scroll chat to bottom
   setTimeout(() => {
     document.querySelectorAll('.sc-msgs').forEach(el => el.scrollTop = el.scrollHeight);
   }, 100);
 }
-
+ 
 function toggleRc(id){
   const card = document.getElementById(`rc-${id}`);
   if(!card) return;
@@ -1085,7 +1121,7 @@ function toggleRc(id){
     }, 60);
   }
 }
-
+ 
 /* ══ STAFF ACTIONS ══ */
 function changeStatus(id, sel){
   const r = _allReqs.find(r => String(r.id) === String(id));
@@ -1094,7 +1130,7 @@ function changeStatus(id, sel){
   saveReq(r);
   showToast(`「${sel.value}」に更新しました`, 'ok');
 }
-
+ 
 function acceptReq(id){
   const r = _allReqs.find(r => String(r.id) === String(id));
   if(!r || r.acceptedBy) return;
@@ -1108,7 +1144,7 @@ function acceptReq(id){
   }).catch(e=>console.error(e));
   showToast(`${r.kaisha} の案件を引き受けました`, 'ok');
 }
-
+ 
 /* ══ TAIHI (引継ぎ) ══ */
 function openTaihiModal(id){
   _taihiId = id;
@@ -1136,7 +1172,7 @@ function confirmTaihi(){
   closeTaihiModal();
   showToast(`案件を ${newStaff} に引き継ぎました`, 'ok');
 }
-
+ 
 /* ══ CHAT ══ */
 function sendChat(id){
   const ta = document.getElementById(`scIn-${id}`);
@@ -1156,17 +1192,17 @@ function sendChat(id){
     date:nowStr(), to_email:NOTIFY, from_email:"tung16208@gmail.com"
   }).catch(e=>console.error(e));
 }
-
+ 
 /* ══ VOICE INPUT ══ */
 let _voiceRecognition = null;
 let _voiceActiveId = null;
-
+ 
 function toggleVoice(reqId){
   if(_voiceActiveId && _voiceActiveId !== reqId) stopVoice(_voiceActiveId);
   if(_voiceActiveId === reqId){ stopVoice(reqId); return; }
   startVoice(reqId);
 }
-
+ 
 function startVoice(reqId){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SR){ showToast('⚠️ このブラウザは音声入力に対応していません','error'); return; }
@@ -1202,7 +1238,7 @@ function startVoice(reqId){
   _voiceRecognition.onend = () => { if(_voiceActiveId===reqId) stopVoice(reqId); };
   try{ _voiceRecognition.start(); }catch(e){ showToast('⚠️ 音声入力を開始できませんでした','error'); }
 }
-
+ 
 function stopVoice(reqId){
   if(_voiceRecognition){ try{_voiceRecognition.stop();}catch(e){} _voiceRecognition=null; }
   _voiceActiveId = null;
@@ -1211,7 +1247,7 @@ function stopVoice(reqId){
   if(btn){ btn.classList.remove('recording'); btn.textContent='🎤'; }
   if(ta) ta.placeholder = '客先へメッセージを送る…';
 }
-
+ 
 /* ══ RENDER TENANTS TAB ══ */
 function renderTenantsTab(){
   const el = document.getElementById('tenantsContent');
@@ -1251,7 +1287,7 @@ function renderTenantsTab(){
     </div>`;
   }).join('') + '</div>';
 }
-
+ 
 /* ══ RENDER DEVICES TAB ══ */
 function renderDevicesTab(){
   const el = document.getElementById('devicesContent');
@@ -1259,23 +1295,23 @@ function renderDevicesTab(){
   let devs = [..._allDevices];
   if(_devFilter !== 'all') devs = devs.filter(d => d.status === _devFilter);
   devs.sort((a,b) => (b.ts||0)-(a.ts||0));
-
+ 
   if(!devs.length){
     el.innerHTML = '<div class="empty-state"><div class="ei">📱</div><p>デバイスがありません</p></div>';
     return;
   }
-
+ 
   const stChip = (d) => {
     if(d.status==='allowed') return `<span style="background:var(--ok-bg);color:#065f46;border:1px solid #6ee7b7;border-radius:99px;padding:2px 9px;font-size:11px;font-weight:700;">✅ 許可</span>`;
     if(d.status==='blocked') return `<span style="background:var(--err-bg);color:var(--err);border:1px solid #fca5a5;border-radius:99px;padding:2px 9px;font-size:11px;font-weight:700;">🚫 ブロック</span>`;
     return `<span style="background:#fef3c7;color:#92400e;border:1px solid #fcd34d;border-radius:99px;padding:2px 9px;font-size:11px;font-weight:700;">⏳ 承認待ち</span>`;
   };
-
+ 
   const getTName = (tid) => {
     const t = _allTenants.find(t2=>t2.id===tid);
     return t ? `${t.icon||'🏢'} ${t.name}` : (tid||'—');
   };
-
+ 
   el.innerHTML = `<div style="overflow-x:auto;background:var(--sur);border:1px solid var(--bdr);border-radius:var(--rad);box-shadow:var(--shds);">
     <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
       <thead><tr style="background:var(--sur2);">
@@ -1301,7 +1337,7 @@ function renderDevicesTab(){
     </table>
   </div>`;
 }
-
+ 
 function setDevStatus(deviceId, status){
   _waitFb(async () => {
     try{
@@ -1312,7 +1348,7 @@ function setDevStatus(deviceId, status){
     }catch(e){ showToast('エラーが発生しました','error'); }
   });
 }
-
+ 
 function delDevice(deviceId){
   if(!confirm('このデバイスを削除しますか？')) return;
   _waitFb(async () => {
@@ -1322,7 +1358,7 @@ function delDevice(deviceId){
     }catch(e){ showToast('削除に失敗しました','error'); }
   });
 }
-
+ 
 /* ══ NEW REQ NOTIFICATION ══ */
 function notifyNewReq(req){
   showNotifBanner(
@@ -1347,7 +1383,7 @@ function notifyNewReq(req){
     n.onclick = () => { window.focus(); };
   }
 }
-
+ 
 function notifyNewDevice(tenantName, label, deviceId){
   showNotifBanner(
     '📱',
@@ -1359,7 +1395,7 @@ function notifyNewDevice(tenantName, label, deviceId){
   );
   playSound([1100,880]);
 }
-
+ 
 function showNotifBanner(icon, title, line1, line2, borderColor, onConfirm){
   const container = document.getElementById('notifBanner');
   const banner = document.createElement('div');
@@ -1380,7 +1416,7 @@ function showNotifBanner(icon, title, line1, line2, borderColor, onConfirm){
   container.appendChild(banner);
   setTimeout(() => { if(banner.parentNode) banner.remove(); }, 25000);
 }
-
+ 
 function playSound(freqs){
   try{
     const ctx = new (window.AudioContext||window.webkitAudioContext)();
@@ -1394,26 +1430,113 @@ function playSound(freqs){
     });
   }catch(e){}
 }
-
-/* ══ NOTIFICATIONS PERMISSION ══ */
-function requestNotifPerm(){
-  if(!('Notification' in window)) return;
-  const btn = document.getElementById('notifBtn');
-  if(Notification.permission==='granted'){
-    if(btn){ btn.textContent='🔔 通知ON'; btn.style.background='rgba(74,222,128,.2)'; btn.style.borderColor='rgba(74,222,128,.4)'; }
+ 
+/* ══ NOTIFICATIONS DROPDOWN ══ */
+function toggleNotifDropdown(){
+  const dd = document.getElementById('notifDropdown');
+  if(!dd) return;
+  const isOpen = dd.classList.contains('open');
+  if(isOpen){
+    dd.classList.remove('open');
+  } else {
+    dd.classList.add('open');
+    _updateNotifDropdownUI();
+    setTimeout(() => {
+      document.addEventListener('click', _closeNotifOnOutside, {once:true});
+    }, 10);
+  }
+}
+function _closeNotifOnOutside(e){
+  const wrap = document.querySelector('.notif-wrap');
+  if(wrap && wrap.contains(e.target)) return;
+  document.getElementById('notifDropdown')?.classList.remove('open');
+}
+ 
+function _updateNotifDropdownUI(){
+  const dot = document.getElementById('notifStatusDot');
+  const txt = document.getElementById('notifStatusText');
+  const btn = document.getElementById('notifActionBtn');
+  const note = document.getElementById('notifNote');
+  const topBtn = document.getElementById('notifBtn');
+  if(!('Notification' in window)){
+    if(dot){ dot.className='nd-dot na'; }
+    if(txt) txt.textContent = 'このブラウザは通知非対応です';
+    if(btn) { btn.textContent='利用不可'; btn.disabled=true; }
+    if(note) note.textContent='';
     return;
   }
-  if(Notification.permission==='default'){
+  const perm = Notification.permission;
+  if(perm === 'granted'){
+    if(dot){ dot.className='nd-dot on'; }
+    if(txt) txt.textContent = '通知は有効です ✅';
+    if(btn) { btn.textContent='🔔 通知ON（設定済み）'; btn.disabled=true; btn.style.background='var(--ok)'; }
+    if(note) note.textContent='新しい依頼をリアルタイムでお知らせします';
+    if(topBtn){ topBtn.textContent='🔔 通知ON'; topBtn.classList.add('notif-on'); }
+  } else if(perm === 'denied'){
+    if(dot){ dot.className='nd-dot off'; }
+    if(txt) txt.textContent = '通知がブロックされています ❌';
+    if(btn) { btn.textContent='ブラウザ設定で許可してください'; btn.disabled=true; btn.style.background='#6b7280'; }
+    if(note) note.textContent='ブラウザの設定から通知を許可してください';
+    if(topBtn){ topBtn.classList.remove('notif-on'); }
+  } else {
+    if(dot){ dot.className='nd-dot na'; }
+    if(txt) txt.textContent = '通知はまだ設定されていません';
+    if(btn) { btn.textContent='🔔 通知を有効にする'; btn.disabled=false; btn.style.background=''; }
+    if(note) note.textContent='タップして通知の許可を求めます';
+    if(topBtn){ topBtn.classList.remove('notif-on'); }
+  }
+}
+ 
+function handleNotifAction(){
+  if(!('Notification' in window)) return;
+  if(Notification.permission === 'default'){
     Notification.requestPermission().then(p => {
-      if(p==='granted'){
+      _updateNotifDropdownUI();
+      if(p === 'granted'){
         showToast('🔔 通知を有効にしました','ok');
-        if(btn){ btn.textContent='🔔 通知ON'; btn.style.background='rgba(74,222,128,.2)'; btn.style.borderColor='rgba(74,222,128,.4)'; }
         new Notification('✅ 通知が有効になりました',{body:'新しい作業依頼をリアルタイムでお知らせします'});
       }
     });
   }
 }
-
+ 
+function requestNotifPerm(){
+  // kept for compatibility
+  if(!('Notification' in window)) return;
+  if(Notification.permission==='default'){
+    Notification.requestPermission().then(p => {
+      if(p==='granted'){
+        showToast('🔔 通知を有効にしました','ok');
+        _updateNotifDropdownUI();
+      }
+    });
+  }
+}
+ 
+/* ══ STAT CARD FILTER ══ */
+function filterByStatCard(status){
+  _statusFilter = status;
+  // Switch to reqs tab if not already there
+  if(_currentTab !== 'reqs'){
+    switchTab('reqs', document.getElementById('tabReqs'));
+  }
+  renderReqs();
+  // Visual feedback: highlight active stat card
+  document.querySelectorAll('.stat-card').forEach((c,i) => {
+    c.style.outline = 'none';
+    c.style.boxShadow = 'var(--shds)';
+  });
+  const statMap = {'all':0,'未定':1,'実施中':2,'完了':3};
+  const idx = statMap[status];
+  const cards = document.querySelectorAll('.stat-card');
+  if(cards[idx]){
+    cards[idx].style.outline = '2.5px solid var(--blue2)';
+    cards[idx].style.boxShadow = '0 0 0 4px rgba(59,130,246,.15)';
+  }
+  const labelMap = {'all':'すべて','未定':'未対応','実施中':'実施中','完了':'完了'};
+  showToast(`📊 ${labelMap[status]}でフィルター中`,'');
+}
+ 
 /* ══ EXCEL EXPORT ══ */
 function exportExcel(){
   if(!_allReqs.length){ showToast('データがありません','warn'); return; }
@@ -1434,7 +1557,7 @@ function exportExcel(){
   XLSX.writeFile(wb,`スタッフ管理_${now.getFullYear()}${p2(now.getMonth()+1)}${p2(now.getDate())}.xlsx`);
   showToast('Excelをダウンロードしました','ok');
 }
-
+ 
 /* ══ IMAGE LIGHTBOX ══ */
 let _lbImages=[], _lbIdx=0;
 function openImgModal(reqId, idx){
@@ -1445,12 +1568,12 @@ function openImgModal(reqId, idx){
   document.getElementById('imgModal').style.display = 'flex';
 }
 function closeImgModal(){ document.getElementById('imgModal').style.display='none'; }
-
+ 
 /* ══ COPY URL ══ */
 function copyUrl(url){
   navigator.clipboard.writeText(url).then(()=>showToast('✅ URLをコピーしました','ok')).catch(()=>showToast('コピーに失敗しました','error'));
 }
-
+ 
 /* ══ SYNC STATUS ══ */
 function setSyncStatus(s){
   const dot=document.getElementById('syncDot'), txt=document.getElementById('syncTxt');
@@ -1460,7 +1583,7 @@ function setSyncStatus(s){
   else if(s==='error'){dot.classList.add('error');if(txt)txt.textContent='エラー';}
   else{if(txt)txt.textContent='同期済み';}
 }
-
+ 
 /* ══ HELPERS ══ */
 function p2(n){return String(n).padStart(2,'0');}
 function nowStr(){const d=new Date();return `${d.getFullYear()}/${p2(d.getMonth()+1)}/${p2(d.getDate())} ${p2(d.getHours())}:${p2(d.getMinutes())}`;}
@@ -1469,10 +1592,10 @@ function showToast(msg,type=''){
   const t=document.getElementById('toast');t.textContent=msg;t.className='show'+(type?' '+type:'');
   clearTimeout(t._t);t._t=setTimeout(()=>t.className='',3500);
 }
-
+ 
 /* ══ SESSION RESTORE ══ */
 window.addEventListener('load', () => {
-
+ 
   // 1️⃣ sessionStorage チェック（タブがまだ開いている場合）
   try{
     const sess = JSON.parse(sessionStorage.getItem('sp_session')||'null');
@@ -1492,7 +1615,7 @@ window.addEventListener('load', () => {
       return;
     }
   }catch(e){}
-
+ 
   // 2️⃣ localStorage チェック（「このデバイスを記憶する」で保存済み）
   const rem = _getRememberedSession();
   if(rem){
@@ -1500,7 +1623,7 @@ window.addEventListener('load', () => {
     completeLogin({id:rem.id, ...STAFF_USERS[rem.id]}, true, true);
     return;
   }
-
+ 
   // 3️⃣ どちらもなければログイン画面を表示
   document.getElementById('loginScreen').style.display = 'flex';
   setTimeout(() => document.getElementById('loginId').focus(), 200);
@@ -1508,3 +1631,4 @@ window.addEventListener('load', () => {
 </script>
 </body>
 </html>
+ 
